@@ -1,0 +1,39 @@
+OBS - algumas queries utilizam mais de um tipo requisitado
+1-
+MATCH (n:AccountHolder)
+RETURN TOUPPER(max(n.fullName))
+2 - 
+MATCH (n:AccountHolder)
+RETURN left(min(n.fullName),3)
+3 -
+MATCH (c:CreditCard)
+WITH floor(c.balance) AS flooredBalance
+RETURN sum(flooredBalance) 
+4 -
+MATCH (c:CreditCard)
+WITH CEIL(c.balance) AS flooredBalance
+RETURN ABS(MIN(flooredBalance) - MAX(flooredBalance)) 
+5 -
+MATCH (a:AccountHolder)
+RETURN count(properties(a))
+6-
+MATCH (a:AccountHolder)
+RETURN avg(size(a.properties.lastName))
+7-
+MATCH (a:AccountHolder)
+RETURN min(date(a.properties.birthDate))
+8-
+MATCH (a:AccountHolder)
+RETURN right(a.properties.UniqueId, 5)
+9-
+MATCH (a:AccountHolder)
+RETURN toString(date(a.properties.birthDate))
+10-
+MATCH (a:AccountHolder)
+RETURN reverse(a.properties.fullName)
+11-
+MATCH (c:CreditCard)
+RETURN round(c.properties.balance)
+12-
+MATCH (c:CreditCard)
+RETURN SIGN(c.properties.balance)
