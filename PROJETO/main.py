@@ -2,12 +2,8 @@ from database import Database
 from user import User
 from device import Device
 
-uri = "bolt://44.195.19.245:7687"
-user = "neo4j"
-password = "handle-animal-suppressions"
-
 def CLI():
-    db = Database("bolt://44.195.19.245:7687", "neo4j", "handle-animal-suppressions")
+    db = Database("bolt://18.212.60.3:7687", "neo4j", "leave-overloads-directive")
     user_model = User(db)
     device_model = Device(db)
 
@@ -115,6 +111,7 @@ def CLI():
                         device_id = int(input("Enter device MAC: "))
                         source_cpf = logged_in_user_cpf
                         target_cpf = input("Enter target user CPF: ")
+                        print(source_cpf, target_cpf, device_id)
                         device_model.share_device_between_users(device_id, source_cpf, target_cpf)
                         print("Device shared successfully.")
 

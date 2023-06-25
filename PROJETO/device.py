@@ -56,14 +56,14 @@ class Device:
     def share_device_between_users(self, device_id, owner_cpf, target_cpf):
         query = """
         MATCH (d:Device)
-        WHERE ID(d) = $device_id
+        WHERE d.mac = $device_id
         MATCH (owner:User)
         WHERE owner.cpf = $owner_cpf
         MATCH (target:User)
         WHERE target.cpf = $target_cpf
-        CREATE (target)-[:SHARES]->(d)<-[:OWNS]-(owner)
+        CREATE (target)-[:SHARED_WTH]->(d)<-[:SHARES]-(owner)
         RETURN d
-        """
+        """    
         parameters = {
             'device_id': device_id,
             'owner_cpf': owner_cpf,
@@ -75,7 +75,7 @@ class Device:
         query = """
         MATCH (u:User)
         WHERE u.cpf = $cpf
-        MATCH (u)-[:SHARES]->(d:Device)
+        MATCH (u)-[:SHARED_WTH]->(d:Device)
         RETURN d
         """
         parameters = {
@@ -89,6 +89,9 @@ class Device:
         RETURN d
         UNION
         MATCH (u:User {cpf: $cpf})-[:SHARES]->(d:Device)
+        RETURN d
+        UNION
+        MATCH (u)-[:SHARED_WTH]->(d:Device)
         RETURN d
         """
         parameters = {
